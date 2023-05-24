@@ -1,7 +1,7 @@
 @echo off
 
 :: Download and extract repository
-wget https://github.com/ModerNews/Wybory/archive/refs/heads/main.zip
+wget https://github.com/Akademickie-Liceum-Ogolnoksztalcace-PWr/Wybory/archive/refs/heads/main.zip
 tar -xf main.zip
 cd Wybory-main/app
 

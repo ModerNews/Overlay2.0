@@ -1,4 +1,1 @@
-Oskar Chamela
-Szymon Kępski
-Konrad Koc
-Filip Szemelak
+Name Surname
