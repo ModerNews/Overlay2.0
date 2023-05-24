@@ -1,0 +1,19 @@
+services:
+    overlay:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "8000:8000"
+      environment:
+        - REDIS_BACKEND_URL=redis://redis_backend:6379
+      depends_on:
+        - redis
+
+    redis:
+      image: "redis:bullseye"
+      restart: always
+      command: redis-server --save 60 1
+
+networks:
+  server-side: {}

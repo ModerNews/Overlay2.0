@@ -34,15 +34,15 @@ class StreamOverlay(FastAPI):
 
         self.teams = ["Nieznany", "Nieznany"]
 
-        # with open("strings.txt") as file:
-        #     self.predefs = [item.strip() for item in file.read().split("\n")]
-        #
-        # with open("candidates.txt") as file:
-        #     self.candidates = [item.strip() for item in file.read().split("\n")]
+        with open("/home/wybory/strings.txt") as file:
+            self.predefs = [item.strip() for item in file.read().split("\n")]
+
+        with open("/home/wybory/candidates.txt") as file:
+            self.candidates = [item.strip() for item in file.read().split("\n")]
 
         super().__init__()
-        self.mount("/static", StaticFiles(directory="../overlay/static"), name="static")
-        self.templating = Jinja2Templates(directory="../overlay/templates")
+        self.mount("/static", StaticFiles(directory="/home/wybory/static"), name="static")
+        self.templating = Jinja2Templates(directory="/home/wybory/templates")
 
     def dump_to_config(self):
         self._configparser.set('DEFAULT', 'emblem_visible', str(self.emblem_visible))
