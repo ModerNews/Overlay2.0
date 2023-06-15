@@ -1,5 +1,6 @@
 import os
 import configparser
+from typing import Literal
 
 import redis
 
@@ -39,42 +40,45 @@ class StreamOverlay(FastAPI):
 
     @property
     def emblem_visible(self):
-        return self.redis.get("emblem_visible")
+        return bool(self.redis.get("emblem_visible"))
 
     @emblem_visible.setter
-    def emblem_visible(self, value):
-        self.redis.set("emblem_visible", value)
+    def emblem_visible(self, value: bool):
+        self.redis.set("emblem_visible", str(value))
 
     @property
     def comment_mode(self):
-        return self.redis.get("comment_mode")
+        return bool(self.redis.get("comment_mode"))
 
     @comment_mode.setter
-    def comment_mode(self, value):
-        self.redis.set("comment_mode", value)
+    def comment_mode(self, value: bool):
+        self.redis.set("comment_mode", str(value))
 
     @property
     def infobar_visible(self):
-        return self.redis.get("infobar_visible")
+        return bool(self.redis.get("infobar_visible"))
 
     @infobar_visible.setter
     def infobar_visible(self, value):
-        self.redis.set("infobar_visible", value)
+        self.redis.set("infobar_visible", str(value))
 
     @property
     def map_state(self):
-        return self.redis.hgetall("map_state")
+        tmp = self.redis.hgetall("map_state")
+        return {"visible": bool(tmp[b"visible"]), "team1": tmp[b"team1"].decode(), "team2": tmp[b"team2"].decode()}
 
     @map_state.setter
-    def map_state(self, value):
-        self.redis.hset("map_state", value)
+    def map_state(self, value: dict):
+        self.redis.hset("map_state", "visible", str(value["visible"]))
+        self.redis.hset("map_state", "team1", value["team1"])
+        self.redis.hset("map_state", "team2", value["team2"])
 
     @property
     def overlay_mode(self):
         return self.redis.get("overlay_mode")
 
     @overlay_mode.setter
-    def overlay_mode(self, value):
+    def overlay_mode(self, value: Literal["GP", "Wybory", "Turniej"]):
         self.redis.set("overlay_mode", value)
 
     @property
@@ -90,8 +94,9 @@ class StreamOverlay(FastAPI):
     def infobar(self):
         return self.redis.lrange("info_bar", 0, -1)
 
+    # TODO append function
     @infobar.setter
-    def infobar(self, value):
+    def infobar(self, value: list):
         self.redis.delete("info_bar")
         self.redis.lpush("info_bar", *value)
 
