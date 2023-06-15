@@ -88,7 +88,7 @@ class StreamOverlay(FastAPI):
     @teams.setter
     def teams(self, value):
         self.redis.delete("teams")
-        self.redis.lpush("teams", *value)
+        self.redis.rpush("teams", *value)
 
     @property
     def infobar(self):
@@ -98,7 +98,7 @@ class StreamOverlay(FastAPI):
     @infobar.setter
     def infobar(self, value: list):
         self.redis.delete("info_bar")
-        self.redis.lpush("info_bar", *value)
+        self.redis.rpush("info_bar", *value)
 
     def _setup_redis(self):
         self.redis = redis.Redis(host=os.getenv("BROKER_BACKEND_URL"), db=0)
