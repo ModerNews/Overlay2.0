@@ -40,7 +40,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def emblem_visible(self):
-        return bool(self.redis.get("emblem_visible"))
+        return bool(self.redis.get("emblem_visible").decode())
 
     @emblem_visible.setter
     def emblem_visible(self, value: bool):
@@ -48,7 +48,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def comment_mode(self):
-        return bool(self.redis.get("comment_mode"))
+        return bool(self.redis.get("comment_mode").decode())
 
     @comment_mode.setter
     def comment_mode(self, value: bool):
@@ -56,7 +56,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def infobar_visible(self):
-        return bool(self.redis.get("infobar_visible"))
+        return bool(self.redis.get("infobar_visible").decode())
 
     @infobar_visible.setter
     def infobar_visible(self, value):
@@ -75,7 +75,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def overlay_mode(self):
-        return self.redis.get("overlay_mode")
+        return self.redis.get("overlay_mode").decode()
 
     @overlay_mode.setter
     def overlay_mode(self, value: Literal["GP", "Wybory", "Turniej"]):
@@ -83,7 +83,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def teams(self):
-        return self.redis.lrange("teams", 0, -1)
+        return [item.decode() for item in self.redis.lrange("teams", 0, -1)]
 
     @teams.setter
     def teams(self, value):
@@ -92,7 +92,7 @@ class StreamOverlay(FastAPI):
 
     @property
     def infobar(self):
-        return self.redis.lrange("info_bar", 0, -1)
+        return [item.decode() for item in self.redis.lrange("info_bar", 0, -1)]
 
     # TODO append function
     @infobar.setter
@@ -118,10 +118,10 @@ class StreamOverlay(FastAPI):
             
         self.infobar_visible = True
 
-        # TODO duplicate values
+        # Those are actually contents of the table describing map points, not teams as field names suggest
         self.map_state = {"visible": False,
-                          "team1": "Vape Clan",
-                          "team2": "D0mmyM0mmies"}
+                          "team1": "",
+                          "team2": ""}
         self.teams = ["NA", "NA"]
 
         self.overlay_mode = "GP"
