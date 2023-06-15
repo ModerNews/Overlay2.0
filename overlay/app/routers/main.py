@@ -20,13 +20,8 @@ from ..dependencies.timer import *
 
 router = APIRouter()
 
-# @router.on_event('startup')
-# async def startup_action():
-#     await asyncio.sleep(2)
-#     os.system("explorer http://localhost:80/start")
 
-
-@router.get("/")
+@router.get("/overlay")
 async def index_loader(request: Request):
     print(request.app.teams[0], request.app.teams[1])
     return request.app.templating.TemplateResponse("index.html", {"request": request, "team1": request.app.teams[0], "team2": request.app.teams[1]})
@@ -35,7 +30,7 @@ async def index_loader(request: Request):
     # return HTMLResponse(data)
 
 
-@router.get("/start")
+@router.get("/")
 async def start_overlay(request: Request):
     return request.app.templating.TemplateResponse("start_page.html", {"request": request})
 

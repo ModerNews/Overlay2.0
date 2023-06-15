@@ -87,7 +87,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
             elif data['event'] == 'setup_system':
                 app.overlay_mode = data['mode']
-                os.system("explorer http://localhost:80/controller")
                 data = {"event": "setup_system", "mode": app.overlay_mode}
 
             elif data['event'] == "show_emblem":
@@ -119,10 +118,8 @@ async def websocket_endpoint(websocket: WebSocket):
                 data = {"event": "maps_state", "state": app.map_state}
 
             elif data['event'] == 'teams':
-                teams[0] = data['team1']
-                teams[1] = data['team2']
-                print(websocket.app.teams)
-                data = {"event": "teams", "team1": data['team1'], "team2": data["team2"]}
+                app.teams = [data['team1'], data['team2']]
+                data = {"event": "teams", "team1": app.teams[0], "team2": app.teams[1]}
 
             elif data['event'] == 'config_dump':
                 websocket.app.dump_to_config()
