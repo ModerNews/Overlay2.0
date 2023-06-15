@@ -69,12 +69,22 @@
         <h2>Wyniki wyborów</h2>
         <!-- Script will add input fields here-->
       </div>
-      <div id="tournament-result-control-container" style="position: absolute; top: 0; left: 0; visibility: hidden">
+      <div id="tournament-control" style="position: absolute; top: 0; left: 0; visibility: hidden">
+        <h2>Funkcje Turniejowe</h2>
+        <div id="tournament-teams">
         <hr>
-        <h2>Wyniki rund</h2>
-        <textarea id="team1" rows=4 type="text" placeholder="Mapy Drużyny Pierwszej"></textarea>
-        <textarea id="team2" rows=4 type="text" placeholder="Mapy Drużyny Drugiej"></textarea>
-        <button id="maps-update">Aktualizuj mapy</button>
+          <h3>Podmiana drużyn</h3>
+          <input id="team1" type="text" placeholder="Drużyna Pierwsza">
+          <input id="team2" type="text" placeholder="Drużyna Druga">
+          <button id="tournament-teams-update">Aktualizuj nazwy drużyn</button>
+        </div>
+        <div id="tournament-results">
+          <hr>
+          <h3>Wyniki rund</h3>
+          <textarea id="team1-score" rows=4 type="text" placeholder="Mapy Drużyny Pierwszej"></textarea>
+          <textarea id="team2-score" rows=4 type="text" placeholder="Mapy Drużyny Drugiej"></textarea>
+          <button id="tournament-maps-update">Aktualizuj mapy</button>
+        </div>
       </div>
     </div>
   </body>
@@ -111,16 +121,16 @@
         let data = JSON.parse(evt.data);
         console.log("Receiving websocket data")
         console.log(data)
-        if (data.event === "setup_system") {
+        if (data.event === "overlay_mode") {
           if (data.mode === "GP") {
             $("#result-control-container").css('visibility', 'hidden')
-            $("#tournament-result-control-container").css('visibility', 'hidden')
+            $("#tournament-control").css('visibility', 'hidden')
           } else if (data.mode === "Turniej") {
             $("#result-control-container").css('visibility', 'hidden')
-            $("#tournament-result-control-container").css('visibility', 'visible')
+            $("#tournament-control").css('visibility', 'visible')
           } else if (data.mode === "Wybory") {
             $("#result-control-container").css('visibility', 'visible')
-            $("#tournament-result-control-container").css('visibility', 'hidden')
+            $("#tournament-control").css('visibility', 'hidden')
           }
         }
         if(data.event === "infobar") {
@@ -221,15 +231,26 @@
       }));
     });
 
-    $("#maps-update").click(() => {
-      let team1 = $("#team1").val();
-      let team2 = $("#team2").val();
+    $("#tournament-maps-update").click(() => {
+      let team1 = $("#team1-score").val();
+      let team2 = $("#team2-score").val();
 
       ws.send(JSON.stringify({
         event: "maps_state",
         state: {visible: true,
           team1: team1,
           team2: team2},
+      }));
+    });
+
+    $("#tournament-teams-update").click(() => {
+      let team1 = $("#team1").val();
+      let team2 = $("#team2").val();
+
+      ws.send(JSON.stringify({
+        event: "update_teams",
+        team1: team1,
+        team2: team2,
       }));
     });
 

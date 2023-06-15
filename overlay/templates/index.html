@@ -238,9 +238,9 @@
         }
       }
 
-      if (data.event === "teams") {
-        $("#team1").innerText = data.team1;
-        $("#team2").innerText = data.team1;
+      if (data.event === "update_teams") {
+        $("#team1").html("<b>" + data.team1 + "</b>");
+        $("#team2").html("<b>" + data.team2 + "</b>");
       }
 
       let mapState;

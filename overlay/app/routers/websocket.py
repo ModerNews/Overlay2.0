@@ -56,6 +56,7 @@ async def websocket_endpoint(websocket: WebSocket):
     app: base_class.StreamOverlay = websocket.app
     teams = app.teams
     await websocket.accept()
+    # TODO merge states into single event
     await websocket.send_json({"event": "infobar", "content": app.infobar})
     await websocket.send_json({"event": "show_emblem", "value": app.emblem_visible})
     await websocket.send_json({"event": "show_bottom", "value": app.infobar_visible})
@@ -64,7 +65,7 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.send_json({"event": "candidates", "content": app.candidates})
     await websocket.send_json({"event": "timer_state", "state": app.timer.__dict__()})
     await websocket.send_json({"event": "maps_state", "state": app.map_state})
-    await websocket.send_json({"event": "setup_system", "mode": app.overlay_mode})
+    await websocket.send_json({"event": "overlay_mode", "mode": app.overlay_mode})
     await websocket.send_json({"event": "teams", "team1": teams[0], "team2": teams[1]})
     await manager.connect(websocket)
     try:
@@ -87,7 +88,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
             elif data['event'] == 'setup_system':
                 app.overlay_mode = data['mode']
-                data = {"event": "setup_system", "mode": app.overlay_mode}
+                app.teams = data['teams']
 
             elif data['event'] == "show_emblem":
                 app.emblem_visible = data['value']
@@ -117,9 +118,9 @@ async def websocket_endpoint(websocket: WebSocket):
                 app.map_state = data['state']
                 data = {"event": "maps_state", "state": app.map_state}
 
-            elif data['event'] == 'teams':
+            elif data['event'] == 'update_teams':
                 app.teams = [data['team1'], data['team2']]
-                data = {"event": "teams", "team1": app.teams[0], "team2": app.teams[1]}
+                data = {"event": "update_teams", "team1": app.teams[0], "team2": app.teams[1]}
 
             elif data['event'] == 'config_dump':
                 websocket.app.dump_to_config()
