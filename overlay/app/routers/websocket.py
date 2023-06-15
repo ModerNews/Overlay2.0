@@ -1,10 +1,13 @@
+import os
 from typing import Optional
 
+import redis
 from fastapi import APIRouter, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from .. import base_class
 from ..dependencies.timer import *
 
 websocket_router = APIRouter(prefix='/websocket')
@@ -50,17 +53,19 @@ manager = ConnectionManager()
 
 @websocket_router.websocket("/websocket")
 async def websocket_endpoint(websocket: WebSocket):
+    app: base_class.StreamOverlay = websocket.app
+    teams = app.teams
     await websocket.accept()
-    await websocket.send_json({"event": "infobar", "content": websocket.app.info_bar})
-    await websocket.send_json({"event": "show_emblem", "value": websocket.app.emblem_visible})
-    await websocket.send_json({"event": "show_bottom", "value": websocket.app.infobar_visible})
-    await websocket.send_json({"event": "show_lobby", "value": websocket.app.comment_mode})
-    await websocket.send_json({"event": "predefs", "content": websocket.app.predefs})
-    await websocket.send_json({"event": "candidates", "content": websocket.app.candidates})
-    await websocket.send_json({"event": "timer_state", "state": websocket.app.timer.__dict__()})
-    await websocket.send_json({"event": "maps_state", "state": websocket.app.map_state})
-    await websocket.send_json({"event": "setup_system", "mode": websocket.app.overlay_mode})
-    await websocket.send_json({"event": "teams", "team1": websocket.app.teams[0], "team2": websocket.app.teams[1]})
+    await websocket.send_json({"event": "infobar", "content": app.infobar})
+    await websocket.send_json({"event": "show_emblem", "value": app.emblem_visible})
+    await websocket.send_json({"event": "show_bottom", "value": app.infobar_visible})
+    await websocket.send_json({"event": "show_lobby", "value": app.comment_mode})
+    await websocket.send_json({"event": "predefs", "content": app.predefs})
+    await websocket.send_json({"event": "candidates", "content": app.candidates})
+    await websocket.send_json({"event": "timer_state", "state": app.timer.__dict__()})
+    await websocket.send_json({"event": "maps_state", "state": app.map_state})
+    await websocket.send_json({"event": "setup_system", "mode": app.overlay_mode})
+    await websocket.send_json({"event": "teams", "team1": teams[0], "team2": teams[1]})
     await manager.connect(websocket)
     try:
         while True:
@@ -81,41 +86,41 @@ async def websocket_endpoint(websocket: WebSocket):
                     data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
 
             elif data['event'] == 'setup_system':
-                websocket.app.overlay_mode = data['mode']
+                app.overlay_mode = data['mode']
                 os.system("explorer http://localhost:80/controller")
-                data = {"event": "setup_system", "mode": websocket.app.overlay_mode}
+                data = {"event": "setup_system", "mode": app.overlay_mode}
 
             elif data['event'] == "show_emblem":
-                websocket.app.emblem_visible = data['value']
-                data = {"event": "show_emblem", "value": websocket.app.emblem_visible}
+                app.emblem_visible = data['value']
+                data = {"event": "show_emblem", "value": app.emblem_visible}
 
             elif data['event'] == "show_bottom":
-                websocket.app.infobar_visible = data['value']
-                data = {"event": "show_bottom", "value": websocket.app.infobar_visible}
+                app.infobar_visible = data['value']
+                data = {"event": "show_bottom", "value": app.infobar_visible}
 
             elif data['event'] == "show_lobby":
-                websocket.app.comment_mode = data['value']
-                data = {"event": "show_lobby", "value": websocket.app.comment_mode}
+                app.comment_mode = data['value']
+                data = {"event": "show_lobby", "value": app.comment_mode}
 
             elif data['event'] == "infobar":
-                websocket.app.info_bar = data['content']
-                data = {"event": "infobar", "content": websocket.app.info_bar}
+                app.infobar = data['content']
+                data = {"event": "infobar", "content": app.infobar}
 
             elif data['event'] == "predefs":
-                websocket.app.predefs = data['content']
-                data = {"event": "predefs", "content": websocket.app.predefs}
+                app.predefs = data['content']
+                data = {"event": "predefs", "content": app.predefs}
 
             elif data['event'] == 'candidates':
-                websocket.app.candidates = data['content']
-                data = {"event": "candidates", "content": websocket.app.candidates}
+                app.candidates = data['content']
+                data = {"event": "candidates", "content": app.candidates}
 
             elif data['event'] == 'maps_state':
-                websocket.app.map_state = data['state']
-                data = {"event": "maps_state", "state": websocket.app.map_state}
+                app.map_state = data['state']
+                data = {"event": "maps_state", "state": app.map_state}
 
             elif data['event'] == 'teams':
-                websocket.app.teams[0] = data['team1']
-                websocket.app.teams[1] = data['team2']
+                teams[0] = data['team1']
+                teams[1] = data['team2']
                 print(websocket.app.teams)
                 data = {"event": "teams", "team1": data['team1'], "team2": data["team2"]}
 

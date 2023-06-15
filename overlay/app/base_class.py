@@ -37,6 +37,64 @@ class StreamOverlay(FastAPI):
         self._setup_redis()
         self._update_values()
 
+    @property
+    def emblem_visible(self):
+        return self.redis.get("emblem_visible")
+
+    @emblem_visible.setter
+    def emblem_visible(self, value):
+        self.redis.set("emblem_visible", value)
+
+    @property
+    def comment_mode(self):
+        return self.redis.get("comment_mode")
+
+    @comment_mode.setter
+    def comment_mode(self, value):
+        self.redis.set("comment_mode", value)
+
+    @property
+    def infobar_visible(self):
+        return self.redis.get("infobar_visible")
+
+    @infobar_visible.setter
+    def infobar_visible(self, value):
+        self.redis.set("infobar_visible", value)
+
+    @property
+    def map_state(self):
+        return self.redis.hgetall("map_state")
+
+    @map_state.setter
+    def map_state(self, value):
+        self.redis.hset("map_state", value)
+
+    @property
+    def overlay_mode(self):
+        return self.redis.get("overlay_mode")
+
+    @overlay_mode.setter
+    def overlay_mode(self, value):
+        self.redis.set("overlay_mode", value)
+
+    @property
+    def teams(self):
+        return self.redis.lrange("teams", 0, -1)
+
+    @teams.setter
+    def teams(self, value):
+        self.redis.delete("teams")
+        self.redis.lpush("teams", *value)
+
+    @property
+    def infobar(self):
+        return self.redis.lrange("info_bar", 0, -1)
+
+    @infobar.setter
+    def infobar(self, value):
+        self.redis.delete("info_bar")
+        self.redis.lpush("info_bar", *value)
+
     def _setup_redis(self):
         self.redis = redis.Redis(host=os.getenv("BROKER_BACKEND_URL"), db=0)
 
@@ -47,35 +105,22 @@ class StreamOverlay(FastAPI):
         """
         self.timer = TimerState()
 
-        # info_bar = self.redis.llen("info_bar")
-        # if info_bar == 0:
-        #     self.redis.lpush("info_bar", *[])
+        self.infobar = ["Transmisja wkrótce się rozpocznie"]
 
-        emblem_visible = self.redis.get("emblem_visible")
-        if emblem_visible is None:
-            self.redis.set("emblem_visible", True)
+        self.emblem_visible = False
 
-        comment_mode = self.redis.get("comment_mode")
-        if comment_mode is None:
-            self.comment_mode = False
+        self.comment_mode = False
             
-        infobar_visible = self.redis.get("infobar_visible")
-        if infobar_visible is None:
-            self.redis.set("infobar_visible", True)
+        self.infobar_visible = True
 
-        map_state = self.redis.hgetall("map_state")
-        if not map_state:
-            self.redis.hset("map_state", {"visible": False,
-                                          "team1": "Vape Clan",
-                                          "team2": "D0mmyM0mmies"})
+        # TODO duplicate values
+        self.map_state = {"visible": False,
+                          "team1": "Vape Clan",
+                          "team2": "D0mmyM0mmies"}
+        self.teams = ["NA", "NA"]
 
-        overlay_mode = self.redis.get("overlay_mode")
-        if overlay_mode is None:
-            self.redis.set("overlay_mode", "GP")
+        self.overlay_mode = "GP"
 
-        teams = self.redis.llen("teams")
-        if teams == 0:
-            self.redis.lpush("teams", *["NA", "NA"])
 
     def dump_to_config(self):
         with open(self._config_file, 'w+') as file:
