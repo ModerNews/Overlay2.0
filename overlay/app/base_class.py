@@ -40,36 +40,36 @@ class StreamOverlay(FastAPI):
 
     @property
     def emblem_visible(self):
-        return bool(self.redis.get("emblem_visible").decode())
+        return bool(int(self.redis.get("emblem_visible").decode()))
 
     @emblem_visible.setter
     def emblem_visible(self, value: bool):
-        self.redis.set("emblem_visible", str(value))
+        self.redis.set("emblem_visible", str(int(value)))
 
     @property
     def comment_mode(self):
-        return bool(self.redis.get("comment_mode").decode())
+        return bool(int(self.redis.get("comment_mode").decode()))
 
     @comment_mode.setter
     def comment_mode(self, value: bool):
-        self.redis.set("comment_mode", str(value))
+        self.redis.set("comment_mode", str(int(value)))
 
     @property
     def infobar_visible(self):
-        return bool(self.redis.get("infobar_visible").decode())
+        return bool(int(self.redis.get("infobar_visible").decode()))
 
     @infobar_visible.setter
     def infobar_visible(self, value):
-        self.redis.set("infobar_visible", str(value))
+        self.redis.set("infobar_visible", str(int(value)))
 
     @property
     def map_state(self):
         tmp = self.redis.hgetall("map_state")
-        return {"visible": bool(tmp[b"visible"]), "team1": tmp[b"team1"].decode(), "team2": tmp[b"team2"].decode()}
+        return {"visible": bool(int(tmp[b"visible"].decode())), "team1": tmp[b"team1"].decode(), "team2": tmp[b"team2"].decode()}
 
     @map_state.setter
     def map_state(self, value: dict):
-        self.redis.hset("map_state", "visible", str(value["visible"]))
+        self.redis.hset("map_state", "visible", str(int(value["visible"])))
         self.redis.hset("map_state", "team1", value["team1"])
         self.redis.hset("map_state", "team2", value["team2"])
 
@@ -113,6 +113,8 @@ class StreamOverlay(FastAPI):
         self.infobar = ["Transmisja wkrótce się rozpocznie"]
 
         self.emblem_visible = False
+
+        # TODO those do not respond
 
         self.comment_mode = False
             
