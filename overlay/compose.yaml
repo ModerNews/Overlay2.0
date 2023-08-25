@@ -11,6 +11,9 @@ services:
         - redis_backend
       networks:
         - server-side
+      volumes:
+        - ./static:/home/wybory/static
+        - ./templates:/home/wybory/templates
       links:
         - "redis_backend:redis_service"
 
