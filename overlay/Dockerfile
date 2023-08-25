@@ -7,8 +7,6 @@ ADD requirements.txt /tmp/requirements.txt
 ADD candidates.txt /home/wybory/candidates.txt
 ADD strings.txt /home/wybory/strings.txt
 ADD app /home/wybory/app
-ADD static /home/wybory/static
-ADD templates /home/wybory/templates
 COPY runner.py /home/wybory/runner.py
 
 RUN useradd wybory
