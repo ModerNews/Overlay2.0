@@ -41,8 +41,11 @@
       display: flex;
       justify-content: center;
     }
+
     #title{
         position: absolute;
+        left: 0;
+        width: 1920px;
         margin: 1.5% 0 0 0;
         top: 0;
         height: 250px;
@@ -66,7 +69,7 @@
       position: relative;
       bottom: 0;
       width: 95px;
-      background: linear-gradient(to right, #fff 0%, rgba(255,255,255,0.5) 20%, #fff 100%);
+      background: linear-gradient(to right, #fff 0%, rgb(189, 189, 189) 20%, #fff 100%);
     }
 
     .flex-element {
@@ -104,7 +107,6 @@
       font-size: 40pt;
       font-weight: 700;
       text-shadow: 0 4px 4px rgba(0,0,0,0.5);
-      display: none;
     }
     </style>
   </head>
@@ -221,7 +223,7 @@
               // <span className="default-font centered" style="padding-top: 20px;">Oskar</span>
               let labelName = document.createElement("span");
               labelName.className = "default-font centered";
-              labelName.style = "padding-top: 20px;";
+              labelName.style = "padding-top: 18px;";
               labelName.innerHTML = data.content[i-1].replace(" ", "<br>");
 
               let column = document.createElement("div");
