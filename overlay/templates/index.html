@@ -1150,12 +1150,24 @@
                     // Timer update routine
                     memoryLeakClear();
                     let time = timerState.time;
-
+                    console.log(timerState);
                     if (timerState.running) {
                         let current = Date.now();
                         let realTime = (current - timerState.startedAt) / 1000;
-
                         time = Math.max(timerState.time - realTime, 0);
+                        if (time === 0) {
+                            var audio = new Audio('../static/sounds/end.mp3');
+                            audio.play();
+                        }
+                    }
+
+                    if (time === 0) {
+                        ws.send(
+                            JSON.stringify({
+                                event: 'timer',
+                                type: 'stop',
+                            }),
+                        );
                     }
 
                     // Set up info
@@ -1163,13 +1175,10 @@
                     let minutes = Math.floor(time2 / 60);
                     let seconds = Math.floor(time2 % 60);
 
-                    let colon =
-                        Math.floor(time * 10) % 10 < 5 || !timerState.running;
-
                     let timeStrng =
                         (minutes < 10 ? '0' : '') +
                         minutes +
-                        /*(colon?":":" ")*/ ':' +
+                        ':' +
                         (seconds < 10 ? '0' : '') +
                         seconds;
 
