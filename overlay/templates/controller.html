@@ -56,7 +56,7 @@
             <input id="textbar-bold" type="checkbox" />
             <label for="textbar-bold">Pogrubiony tekst</label>
             <br /><br />
-            <input id="textbar-text" type="text" style="width: 400px" />
+            <input id="textbar-text" type="text" style="width: 400px"/>
             <br /><br />
             <button id="textbar-show">Pokaż</button>
             <button id="textbar-hide">Ukryj</button>
@@ -71,6 +71,9 @@
             <br /><br />
             <input id="timer-value" type="text" value="00:40" />
             <button id="timer-set">Ustaw i zatrzymaj</button>
+            <br /> <br />
+            <input type="checkbox" id="timer-sound" checked>
+            <label>Dźwięk kończący</label>
         </div>
         <div style="position: relative">
             <div
@@ -406,6 +409,16 @@
                     event: 'timer',
                     type: 'set',
                     time: seconds,
+                }),
+            );
+        });
+
+        $('#timer-sound').click(() => {
+            ws.send(
+                JSON.stringify({
+                    event: 'timer',
+                    type: 'set_sound',
+                    sound: $('#timer-sound').is(':checked'),
                 }),
             );
         });
