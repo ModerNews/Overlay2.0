@@ -1154,8 +1154,18 @@
                     if (timerState.running) {
                         let current = Date.now();
                         let realTime = (current - timerState.startedAt) / 1000;
-
                         time = Math.max(timerState.time - realTime, 0);
+
+                        if(
+                            (screenRefs.clock[0].text != '0' ||
+                            screenRefs.clock[1].text != '0' ||
+                            screenRefs.clock[3].text != '0' ||
+                            screenRefs.clock[4].text != '0')
+                            &&
+                            Math.floor(time) === 0
+                        ) {
+                            (new Audio('../static/sounds/end.mp3')).play();
+                        }
                     }
 
                     // Set up info
@@ -1163,13 +1173,9 @@
                     let minutes = Math.floor(time2 / 60);
                     let seconds = Math.floor(time2 % 60);
 
-                    let colon =
-                        Math.floor(time * 10) % 10 < 5 || !timerState.running;
-
                     let timeStrng =
                         (minutes < 10 ? '0' : '') +
-                        minutes +
-                        /*(colon?":":" ")*/ ':' +
+                        minutes + ':' +
                         (seconds < 10 ? '0' : '') +
                         seconds;
 
