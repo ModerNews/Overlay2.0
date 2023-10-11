@@ -71,6 +71,9 @@
             <br /><br />
             <input id="timer-value" type="text" value="00:40" />
             <button id="timer-set">Ustaw i zatrzymaj</button>
+            <br><br>
+            <input type="checkbox" id="timer-sound" checked>
+            <label for="timer-sound">Dźwięk końca czasu</label>
         </div>
         <div style="position: relative">
             <div
@@ -406,6 +409,16 @@
                     event: 'timer',
                     type: 'set',
                     time: seconds,
+                }),
+            );
+        });
+
+        $('#timer-sound').click(() => {
+            ws.send(
+                JSON.stringify({
+                    event: 'timer',
+                    type: 'sound',
+                    value: $('#timer-sound').is(':checked'),
                 }),
             );
         });

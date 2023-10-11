@@ -269,6 +269,7 @@
                 running: false,
                 time: 0,
                 startedAt: 0,
+                sound: true
             };
 
             // Clock script
@@ -1162,7 +1163,8 @@
                             screenRefs.clock[3].text != '0' ||
                             screenRefs.clock[4].text != '0')
                             &&
-                            Math.floor(time) === 0
+                            Math.floor(time) === 0 &&
+                            timerState.sound
                         ) {
                             (new Audio('../static/sounds/end.mp3')).play();
                         }
