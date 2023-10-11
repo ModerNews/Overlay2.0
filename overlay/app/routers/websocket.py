@@ -75,7 +75,7 @@ async def websocket_endpoint(websocket: WebSocket):
             if data["event"] == "timer":
                 if data["type"] == "start" and not websocket.app.timer.running:
                     websocket.app.timer.running = True
-                    websocket.app.timer.started_at = datetime.datetime.now()
+                    websocket.app.timer.started_at = datetime.datetime.timestamp()
                     data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
                 elif data["type"] == "stop":
                     websocket.app.timer = update_timer(websocket.app.timer)
@@ -84,6 +84,9 @@ async def websocket_endpoint(websocket: WebSocket):
                 elif data["type"] == "set":
                     websocket.app.timer.running = False
                     websocket.app.timer.time = int(data["time"])
+                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                elif data["type"] == "set_sound":
+                    websocket.app.timer.ending_sound = data["sound"]
                     data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
 
             elif data['event'] == 'setup_system':

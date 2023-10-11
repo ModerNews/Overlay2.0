@@ -269,6 +269,7 @@
                 running: false,
                 time: 0,
                 startedAt: 0,
+                ending_sound: true,
             };
 
             // Clock script
@@ -1150,12 +1151,14 @@
                     // Timer update routine
                     memoryLeakClear();
                     let time = timerState.time;
-                    console.log(timerState);
                     if (timerState.running) {
                         let current = Date.now();
                         let realTime = (current - timerState.startedAt) / 1000;
                         time = Math.max(timerState.time - realTime, 0);
-                        if (time === 0) {
+                        if (time === 0 && timerState.ending_sound) {
+                            console.log(
+                                'LECIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII',
+                            );
                             var audio = new Audio('../static/sounds/end.mp3');
                             audio.play();
                         }

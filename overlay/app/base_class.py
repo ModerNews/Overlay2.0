@@ -117,7 +117,7 @@ class StreamOverlay(FastAPI):
         # TODO those do not respond
 
         self.comment_mode = False
-            
+
         self.infobar_visible = True
 
         # Those are actually contents of the table describing map points, not teams as field names suggest
