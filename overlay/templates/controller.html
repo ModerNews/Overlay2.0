@@ -16,6 +16,7 @@
             }
         </style>
     </head>
+
     <body class="body" style="font-family: Segoe UI, Roboto">
         <div id="top-level-container">
             <h1>Panel sterowania nakładką CG</h1>
@@ -71,8 +72,8 @@
             <br /><br />
             <input id="timer-value" type="text" value="00:40" />
             <button id="timer-set">Ustaw i zatrzymaj</button>
-            <br><br>
-            <input type="checkbox" id="timer-sound" checked>
+            <br /><br />
+            <input type="checkbox" id="timer-sound" checked />
             <label for="timer-sound">Dźwięk końca czasu</label>
         </div>
         <div style="position: relative">
@@ -244,9 +245,9 @@
                         let sum = 0;
                         for (let i = 1; i <= vote_cats; i++) {
                             let v = $('#vote-count' + i).val();
+                            console.log(`candidate ${i}`, v);
                             sum += parseInt(v);
                         }
-                        sum += 12;
 
                         return sum;
                     }

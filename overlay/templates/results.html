@@ -29,15 +29,15 @@
                 overflow: hidden;
             }
 
-            .default-font{
-                font-family: "Rajdhani";
+            .default-font {
+                font-family: 'Rajdhani';
                 font-weight: bold;
                 font-size: 24pt;
                 color: white;
-                text-shadow: 0 4px 4px rgba(0,0,0,0.5);
+                text-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
             }
-            
-            .graph-container{
+
+            .graph-container {
                 position: absolute;
                 top: 0;
                 left: 227px;
@@ -130,14 +130,15 @@
                 align-items: flex-end;
                 font-size: 40pt;
             }
-        
+
             #y-ticks > p {
-              margin: 0;
-              margin-right: 25px;
-              padding: 0;
+                margin: 0;
+                margin-right: 25px;
+                padding: 0;
             }
         </style>
     </head>
+
     <body>
         <div class="screen">
             <p id="title" class="graph-container default-font">
@@ -271,7 +272,7 @@
                 function onMessage(evt) {
                     let data = JSON.parse(evt.data);
                     if (data.event === 'reveal_result') {
-                        console.log('receiving');
+                        console.log('receiving', data);
                         animateBar(data.which, data.value, data.total);
                     }
                     if (data.event === 'candidates') {
