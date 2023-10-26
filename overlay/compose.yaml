@@ -1,27 +1,30 @@
 services:
     overlay:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      ports:
-        - "8000:8000"
-      environment:
-        - BROKER_BACKEND_URL=redis_service
-      depends_on:
-        - redis_backend
-      networks:
-        - server-side
-      links:
-        - "redis_backend:redis_service"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '8000:8000'
+        environment:
+            - BROKER_BACKEND_URL=redis_service
+        depends_on:
+            - redis_backend
+        networks:
+            - server-side
+        volumes:
+            - ./static:/home/wybory/static
+            - ./templates:/home/wybory/templates
+        links:
+            - 'redis_backend:redis_service'
 
     redis_backend:
-      image: "redis:bullseye"
-      restart: always
-      command: redis-server --save 60 1
-      expose:
-      - 6379:6379
-      networks:
-        - server-side
+        image: 'redis:bullseye'
+        restart: always
+        command: redis-server --save 60 1
+        expose:
+            - 6379:6379
+        networks:
+            - server-side
 
 networks:
-  server-side: {}
+    server-side: {}

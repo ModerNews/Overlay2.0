@@ -6,11 +6,15 @@ class TimerState(object):
         self.started_at: datetime.datetime = datetime.datetime.now()
         self.running: bool = False
         self.time: int = 0
+        self.sound: bool = True
 
     def __dict__(self):
-        return {"running": self.running,
+        return {
+                "running": self.running,
                 "time": self.time,
-                "startedAt": self.started_at.strftime("%Y-%m-%dT%H:%M:%S%f")[:-3] + "Z"}
+                "startedAt": self.started_at.strftime("%Y-%m-%dT%H:%M:%S%f")[:-3] + "Z",
+                "sound": self.sound
+        }
 
 
 def update_timer(timer_object):

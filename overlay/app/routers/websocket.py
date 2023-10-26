@@ -85,6 +85,9 @@ async def websocket_endpoint(websocket: WebSocket):
                     websocket.app.timer.running = False
                     websocket.app.timer.time = int(data["time"])
                     data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                elif data["type"] == "sound":
+                    websocket.app.timer.sound = data["value"]
+                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
 
             elif data['event'] == 'setup_system':
                 app.overlay_mode = data['mode']
