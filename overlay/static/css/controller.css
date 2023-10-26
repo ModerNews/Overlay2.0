@@ -1,0 +1,22 @@
+button {
+    font-size: 1.2em;
+}
+
+.darkmode-toggle {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+}
+
+html,
+body {
+    overflow-y: scroll;
+    background: #fefefe;
+    color: #1c1c1c;
+}
+
+body.darkmode {
+    background: #1c1c1c;
+    color: #fefefe;
+}

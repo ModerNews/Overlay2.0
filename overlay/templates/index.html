@@ -7,75 +7,8 @@
         <title>Nakładka Wybory</title>
 
         <link rel="stylesheet" href="/static/css/rajdhani.css" />
-        <style>
-            body,
-            html {
-                background: transparent;
-                margin: 0;
-                font-family: Rajdhani;
-                overflow: hidden;
-            }
-
-            .screen {
-                position: relative;
-                width: 1920px;
-                height: 1080px;
-            }
-
-            #clock {
-                display: block;
-                position: absolute;
-                left: 0;
-                top: 1040px;
-                width: 300px;
-                font-weight: 700;
-                color: white;
-                text-align: center;
-                font-size: 67px;
-                line-height: 0;
-                margin: 0;
-                font-variant-numeric: tabular-nums;
-            }
-
-            #clock span {
-                display: inline-block;
-                width: 37px;
-                text-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
-            }
-
-            #clock .span-colon {
-                display: inline-block;
-                width: 16px;
-            }
-
-            .mq-content {
-                position: absolute;
-                width: 1615px;
-                height: 82px;
-                top: 998px;
-                left: 305px;
-                overflow: hidden;
-                color: black;
-                font-size: 49px;
-            }
-
-            .mq-content .mq-text {
-                position: absolute;
-                word-break: keep-all;
-                white-space: nowrap;
-                top: 11px;
-                font-weight: 500;
-            }
-
-            .mq-content .mq-sep {
-                position: absolute;
-                height: 55px;
-                width: 46px;
-                top: 14px;
-                left: 260px;
-                background: url('/static/img/separator.png');
-            }
-        </style>
+        <link rel="stylesheet" href="/static/css/base.css"/>
+        <link rel="stylesheet" href="/static/css/index.css"/>
 
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -92,109 +25,61 @@
         <script src="/static/js/pixi.min.js"></script>
         <script src="/static/js/ease.js"></script>
     </head>
-    <body>
+    <body class="darkmode">
         <div class="screen">
             <canvas
                 id="canvas"
                 width="1920"
                 height="1080"
-                style="
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 1920px;
-                    height: 1080px;
-                "
             ></canvas>
             <div id="infobar">
                 <!-- Overlay -->
-                <img
-                    src="/static/img/overlay1.png"
-                    style="
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 1920px;
-                        height: 1080px;
-                    "
-                />
+                <div class="overlay">
+                    <div class="overlay-bar-background"></div>
+                    <div class="overlay-bar-foreground"></div>
+                </div>
                 <div class="mq-content"></div>
-                <img
-                    src="/static/img/overlay2.png"
-                    style="
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 1920px;
-                        height: 1080px;
-                    "
-                />
+                <div class="overlay-bar-filter">
+                    <div class="overlay-bar-filterL"></div>
+                    <div class="overlay-bar-filterR"></div>
+                </div>
                 <img
                     id="emblem"
                     src="/static/img/emblem.png"
                     style="
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 1920px;
-                        height: 1080px;
-                        display: none;
-                    "
+                        visibility: hidden;
+                        "
                 />
                 <p id="clock"></p>
             </div>
-            <div id="header-container" , style="visibility: hidden">
+            <div id="header-container", style="visibility: hidden">
                 <div class="header-images">
                     <img
                         id="imglobby"
                         src="/static/img/loza.png"
                         style="
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 1920px;
-                            height: 1080px;
                             visibility: hidden;
                         "
                     />
                     <img
                         id="imgteams"
                         src="/static/img/teamy.png"
-                        style="
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 1920px;
-                            height: 1080px;
-                        "
                     />
                     <img
                         id="imgmaps"
                         src="/static/img/mapy.png"
                         style="
                             visibility: hidden;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 1920px;
-                            height: 1080px;
                         "
                     />
                 </div>
                 <div
                     class="header-texts"
-                    style="position: relative; text-align: center"
                 >
                     <div
                         id="lobby-container"
                         class="lobby"
                         style="
-                            position: relative;
-                            top: 48px;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            font-size: 30px;
-                            font-family: Rajdhani;
                             visibility: hidden;
                         "
                     >
@@ -202,43 +87,21 @@
                     </div>
                     <div
                         id="team1-container"
-                        style="
-                            position: absolute;
-                            top: 30px;
-                            width: 586px;
-                            transform: translate(0, -50%);
-                            font-size: 30px;
-                            font-family: Rajdhani;
-                        "
+                        class="team-container"
                     >
                         <span id="team1"><b>{{ team1 }}</b></span>
                     </div>
                     <div
                         id="team2-container"
-                        style="
-                            position: absolute;
-                            top: 30px;
-                            left: 1334px;
-                            width: 586px;
-                            transform: translate(0, -50%);
-                            font-size: 30px;
-                            font-family: Rajdhani;
-                        "
+                        class="team-container"
                     >
                         <span id="team2"><b>{{ team2 }}</b></span>
                     </div>
                     <div
                         id="map1-container"
+                        class="map-container"
                         style="
                             visibility: hidden;
-                            position: absolute;
-                            top: 77px;
-                            left: 0;
-                            height: 128px;
-                            width: 287px;
-                            vertical-align: center;
-                            font-size: 30px;
-                            font-family: Rajdhani;
                         "
                     >
                         <b><span id="map1"></span></b>
@@ -247,14 +110,6 @@
                         id="map2-container"
                         style="
                             visibility: hidden;
-                            position: absolute;
-                            top: 77px;
-                            right: 0;
-                            height: 128px;
-                            width: 287px;
-                            vertical-align: center;
-                            font-size: 30px;
-                            font-family: Rajdhani;
                         "
                     >
                         <b><span id="map2"></span></b>
@@ -455,6 +310,14 @@
                             $('#map1-container').css('visibility', 'hidden');
                             $('#map2-container').css('visibility', 'hidden');
                             $('#imgmaps').css('visibility', 'hidden');
+                        }
+                    }
+
+                    if (data.event === "darkmode") {
+                        if (!data.value) {
+                            document.body.classList.remove("darkmode");
+                        } else {
+                            document.body.classList.add("darkmode");
                         }
                     }
                 }

@@ -1,0 +1,154 @@
+.overlay {
+    background: #fefefe;
+}
+
+body.darkmode .overlay {
+    background: #1c1c1c;
+}
+
+.overlay-bar-foreground {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 84vw;
+    height: 7.5vh;
+    background: inherit;
+}
+
+.overlay-bar-background {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 8.5vh;
+    background: #D260A5;
+}
+
+body.darkmode .overlay-bar-filterL {
+    position: absolute;
+    bottom: 0;
+    left: 16vw;
+    width: 10vw;
+    height: 7.5vh;
+    background: linear-gradient(to right, #1c1c1c, #1c1c1c00);
+}
+
+.overlay-bar-filter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1920px;
+    height: 1080px;
+    background: url("/static/img/overlay2.png");
+}
+
+body.darkmode .overlay-bar-filter {
+    background: none;
+}
+
+.overlay-bar-filterR {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12.5vw;
+    height: 7.5vh;
+}
+
+body.darkmode .overlay-bar-filterR {
+    background: linear-gradient(to left, #1c1c1c, #1c1c1c00);
+}
+
+#header-texts {
+    position: relative;
+    text-align: center;
+}
+
+#lobby-container {
+    position: relative;
+    top: 48px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+}
+
+.team-container {
+    position: absolute;
+    top: 30px;
+    width: 586px;
+    transform: translate(0, -50%);
+    font-size: 30px;
+}
+
+#team2-container {
+    left: 1334px;
+}
+
+.map-container {
+    position: absolute;
+    top: 77px;
+    height: 128px;
+    width: 287px;
+    vertical-align: center;
+    font-size: 30px;
+}
+
+#map2-container {
+    right: 0;
+}
+
+#clock {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 1040px;
+    width: 300px;
+    font-weight: 700;
+    color: inherit;
+    text-align: center;
+    font-size: 67px;
+    line-height: 0;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+#clock span {
+    display: inline-block;
+    width: 37px;
+}
+
+#clock .span-colon {
+    display: inline-block;
+    width: 16px;
+}
+
+.mq-content {
+    position: absolute;
+    width: 84vw;
+    height: 7.5vh;
+    top: 998px;
+    right: 0;
+    overflow: hidden;
+    color: black;
+    font-size: 49px;
+}
+
+body.darkmode .mq-content {
+    color: white;
+}
+
+.mq-content .mq-text {
+    position: absolute;
+    word-break: keep-all;
+    white-space: nowrap;
+    top: 11px;
+    font-weight: 500;
+}
+
+.mq-content .mq-sep {
+    position: absolute;
+    height: 55px;
+    width: 46px;
+    top: 14px;
+    left: 260px;
+    background: url('/static/img/separator.png');
+}

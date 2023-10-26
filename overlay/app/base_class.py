@@ -47,6 +47,14 @@ class StreamOverlay(FastAPI):
         self.redis.set("emblem_visible", str(int(value)))
 
     @property
+    def darkmode(self):
+        return bool(int(self.redis.get("darkmode").decode()))
+
+    @darkmode.setter
+    def darkmode(self, value: bool):
+        self.redis.set("darkmode", str(int(value)))
+
+    @property
     def comment_mode(self):
         return bool(int(self.redis.get("comment_mode").decode()))
 
@@ -127,6 +135,8 @@ class StreamOverlay(FastAPI):
         self.teams = ["NA", "NA"]
 
         self.overlay_mode = "GP"
+
+        self.darkmode = True
 
 
     def dump_to_config(self):

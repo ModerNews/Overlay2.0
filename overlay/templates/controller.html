@@ -4,21 +4,23 @@
         <meta charset="utf-8" />
         <title>Kontroler WYBORY</title>
 
+        <link rel="stylesheet" href="/static/css/rajdhani.css"/>
+        <link rel="stylesheet" href="/static/css/base.css">
+        <link rel="stylesheet" href="/static/css/controller.css">
+
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"
         ></script>
-
-        <style>
-            button {
-                font-size: 1.2em;
-            }
-        </style>
     </head>
 
-    <body class="body" style="font-family: Segoe UI, Roboto">
+    <body>
         <div id="top-level-container">
+            <div class="darkmode-toggle">
+                <input type="checkbox" id="darkmode" />
+                <label for="darkmode">Tryb ciemny</label>
+            </div>
             <h1>Panel sterowania nakładką CG</h1>
             <input type="checkbox" id="emblem-visible" />
             <label for="emblem-visible">Pokaż zespoły</label><br />
@@ -195,6 +197,14 @@
                 if (data.event === 'infobar') {
                     $('#infobar-content').val(data.content.join('\r\n'));
                 }
+                if (data.event === "darkmode") {
+                    $("#darkmode").prop("checked", data.value);
+                    if (!data.value) {
+                        document.body.classList.remove("darkmode");
+                    } else {
+                        document.body.classList.add("darkmode");
+                    }
+                }
                 if (data.event === 'maps_state') {
                     $('#team1').val(data.state.team1);
                     $('#team2').val(data.state.team2);
@@ -265,6 +275,7 @@
                             }),
                         );
                     });
+
                 }
             }
 
@@ -293,6 +304,16 @@
                     content: out,
                 }),
             );
+        });
+
+        $("#darkmode").change(() => {
+            ws.send(
+                JSON.stringify({
+                    event: 'darkmode',
+                    value: $('#darkmode').is(':checked'),
+                }),
+            );
+            console.log("darkmode changed");
         });
 
         $('#tournament-maps-update').click(() => {

@@ -1,0 +1,147 @@
+.graph-container {
+    position: absolute;
+    top: 0;
+    left: 227px;
+    width: 1591px;
+    display: flex;
+    justify-content: center;
+}
+
+#bg {
+    top: 320px;
+    height: 526px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+hr {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    height: 0.5vh;
+    background-color: #fefefe;
+}
+
+body.darkmode hr {
+    background-color: #1c1c1c;
+}
+
+hr.main {
+    opacity: 65%;
+}
+
+hr.secondary {
+    opacity: 35%;
+}
+
+#title {
+    position: absolute;
+    left: 0;
+    width: 1920px;
+    margin: 1.5% 0 0 0;
+    top: 0;
+    height: 250px;
+    align-items: center;
+    z-index: 1;
+    font-size: 45pt;
+}
+
+.centered {
+    display: block;
+    text-align: center;
+}
+
+.bar-name {
+    padding-top: 7px;
+}
+
+p,
+span {
+    font-weight: bold;
+    font-size: 24pt;
+}
+
+.screen {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+}
+
+.bar {
+    position: relative;
+    bottom: 0;
+    width: 95px;
+    background: linear-gradient(
+        to right,
+        #fff 0%,
+        rgb(189, 189, 189) 20%,
+        #fff 100%
+    );
+}
+
+body.darkmode .bar {
+    background: linear-gradient(
+        to right,
+        #1c1c1c 0%,
+        rgb(66, 66, 66) 20%,
+        #1c1c1c 100%
+    );
+}
+
+
+
+.flex-element {
+    position: relative;
+    width: 95px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#bars {
+    position: absolute;
+    top: 250px;
+    height: 676px;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+#bar-description {
+    position: absolute;
+    bottom: 6.5%;
+    left: 227px;
+    width: 1591px;
+    height: 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.count {
+    display: block;
+    bottom: 10px;
+    text-align: center;
+    font-size: 40pt;
+    font-weight: 700;
+}
+
+#y-ticks {
+    position: absolute;
+    top: 310px;
+    left: 0;
+    width: 227px;
+    height: 546px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 40pt;
+}
+
+#y-ticks > p {
+    margin: 0;
+    margin-right: 25px;
+    padding: 0;
+}
