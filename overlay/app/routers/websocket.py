@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from websockets.exceptions import ConnectionClosed
 
 from .. import base_class
 from ..dependencies.timer import *
@@ -51,10 +52,10 @@ class ConnectionManager:
         for connection in receivers:
             try:
                 await connection.send_text(message)
-                response_object["clients"][hex(connection)] = {"code": 200}
-            except WebSocketDisconnect:
+                response_object["clients"][receivers.index(connection)] = {"code": 200}
+            except (WebSocketDisconnect, ConnectionClosed):
                 manager.disconnect(connection)
-                response_object["clients"][hex(connection)] = {
+                response_object["clients"][receivers.index(connection)] = {
                     "code": 410}  # 410 Gone - indicates endpoint (websocket) no longer exists
         return response_object
 
@@ -73,10 +74,10 @@ class ConnectionManager:
         for connection in receivers:
             try:
                 await connection.send_json(message)
-                response_object["clients"][hex(connection)] = {"code": 200}
-            except WebSocketDisconnect:
+                response_object["clients"][receivers.index(connection)] = {"code": 200}
+            except (WebSocketDisconnect, ConnectionClosed):
                 manager.disconnect(connection)
-                response_object["clients"][hex(connection)] = {
+                response_object["clients"][receivers.index(connection)] = {
                     "code": 410}  # 410 Gone - indicates endpoint (websocket) no longer exists
         return response_object
 
@@ -92,7 +93,7 @@ async def update_websocket(websocket: WebSocket):
     await websocket.send_json({"event": "show_lobby", "value": app.comment_mode})
     await websocket.send_json({"event": "predefs", "content": app.predefs})
     await websocket.send_json({"event": "candidates", "content": app.candidates})
-    await websocket.send_json({"event": "timer_state", "state": dict(app.timer)})
+    await websocket.send_json({"event": "timer_state", "state": app.timer.to_dict()})
     await websocket.send_json({"event": "maps_state", "state": app.map_state})
     await websocket.send_json({"event": "overlay_mode", "mode": app.overlay_mode})
     await websocket.send_json({"event": "teams", "team1": app.teams[0], "team2": app.teams[1]})
@@ -114,18 +115,18 @@ async def websocket_endpoint(websocket: WebSocket):
                 if data["type"] == "start" and not websocket.app.timer.running:  # Starts countdown timer on page
                     websocket.app.timer.running = True
                     websocket.app.timer.started_at = datetime.datetime.now()
-                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                    data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
                 elif data["type"] == "stop":  # Stops countdown timer, stopping the timer does not reset the value
                     websocket.app.update_timer()
                     websocket.app.timer.running = False
-                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                    data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
                 elif data["type"] == "set":  # Updates timer with new values from controller
                     websocket.app.timer.running = False
                     websocket.app.timer.time = int(data["time"])
-                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                    data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
                 elif data["type"] == "sound":
                     websocket.app.timer.sound = data["value"]
-                    data = {"event": "timer_state", "state": websocket.app.timer.__dict__()}
+                    data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
 
             elif data['event'] == 'setup_system':
                 # Ideally sent only once, when start page is exited

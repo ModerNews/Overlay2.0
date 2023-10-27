@@ -11,8 +11,7 @@ class TimerState(object):
         self.time: int = 0
         self.sound: bool = True
 
-
-    def __dict__(self) -> dict:
+    def to_dict(self) -> dict:
         """
         Simple function for serialization to dict object
 
