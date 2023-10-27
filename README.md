@@ -7,9 +7,26 @@ Overlay for ALO PWr streams
 
 **If something is missing here, please see [OBS config repository]() for additional information.**
 
+## Table of contents
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Endpoints](#endpoints)
+* [API Reference](#api-reference)
+* [Redis Variablees](#redis-variables)
+
 ## Introduction
 
-This is backend server for ALO PWr Stream overlay for online events.  
+Originally this was backend server for ALO PWr Stream overlay for online events.
+You can see how it worked live [here](https://www.youtube.com/@PolitechnikJunior).  
+However to make it possible to make code public I had to replace, and get rid of few objects,
+and I used this possibility to make small changes to graphic design, to make it look more... mine :3.  
+No major code changes were made, except for the dark mode implementation.
+
+Due to the aforementioned reasons history of the project was stripped to only most recent commits,
+and multiple static files were removed from the historical commits, in attempt to make code publishable online,
+that's why historical versions of this repository may not work/build.
+
+**Original design of the overlay by Łukasz Świszcz**
 
 Basic overlay functionality contains:
 * Infobar with dynamic text (multiple lines supported)
@@ -19,6 +36,27 @@ Basic overlay functionality contains:
 Additionally, overlay has modes for:
 * tournaments - with team headers
 * elections - with bar graph, described further below
+
+### Screenshots
+#### Light mode
+![Overlay Light](readme_assets/overlay_light.png)
+> Overlay itself in a light mode the white part is transparent
+
+![Results Light](readme_assets/results_light.png)
+> Results graph in a light mode with animated bars and bg
+
+![Controller Light](readme_assets/controller_light.png)
+> Control Panel in a light mode 
+
+#### Dark mode
+![Overlay Dark](readme_assets/overlay_dark.png)
+> Overlay itself in a dark mode the white part above the bar is transparent
+
+![Results Dark](readme_assets/results_dark.png)
+> Results graph in a dark mode with animated bars and bg
+
+![Controller Dark](readme_assets/controller_dark.png)
+> Control Panel in a dark mode 
 
 ## Installation
 1. Install [docker](https://www.docker.com/), make sure that [compose](https://docs.docker.com/compose/) have been installed:
@@ -58,7 +96,7 @@ Waiting for missing deamon files, if you want to do it yourself refer to [system
 
 ----
 
-## API Reference 
+## API Reference
 
 ### Websocket events
 
