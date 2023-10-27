@@ -1,0 +1,29 @@
+body,
+html {
+    background: transparent;
+    margin: 0;
+    font-family: Rajdhani;
+    overflow: hidden;
+    color: #fefefe;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.darkmode {
+    color: #1c1c1c;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.screen {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+}
+
+img,
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+}
