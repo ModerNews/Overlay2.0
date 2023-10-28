@@ -1,22 +1,66 @@
-button {
-    font-size: 1.2em;
+:root {
+    --background-darkmode: #1c1c1c;
+    --primary-background-accent: #aaaaaa;
+    --primary-darkmode: #D260A5;
+    --text-darkmode: #fefefe;
 }
 
-.darkmode-toggle {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 0;
+html {
+    font-family: Rajdhani;
 }
 
-html,
 body {
-    overflow-y: scroll;
+    margin: 0;
+    padding: 8px;
     background: #fefefe;
     color: #1c1c1c;
 }
 
+.flex-wrapper {
+    display: flex;
+    justify-content: space-between safe;
+    gap: 10px;
+}
+
+.title-text {
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--primary-darkmode);
+}
+
 body.darkmode {
-    background: #1c1c1c;
-    color: #fefefe;
+    background: var(--background-darkmode);
+    color: var(--text-darkmode);
+}
+
+body.darkmode button {
+    cursor: pointer;
+    padding: 5px;
+    background-color: transparent;
+    color: var(--text-darkmode);
+    border: 1px solid var(--primary-darkmode);
+    border-radius: 3px;
+
+}
+
+body.darkmode button:hover {
+    background-color: var(--primary-darkmode);
+    color: var(--text-darkmode);
+}
+
+body.darkmode input[type=checkbox] {
+    accent-color: var(--primary-darkmode);
+}
+
+body.darkmode textarea,
+body.darkmode select,
+body.darkmode input[type=text],
+body.darkmode input[type=number] {
+    border: 1px solid var(--primary-background-accent);
+    background: var(--background-darkmode);
+    color: var(--text-darkmode);
 }

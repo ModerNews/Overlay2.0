@@ -5,7 +5,6 @@
         <title>Kontroler WYBORY</title>
 
         <link rel="stylesheet" href="/static/css/rajdhani.css"/>
-        <link rel="stylesheet" href="/static/css/base.css">
         <link rel="stylesheet" href="/static/css/controller.css">
 
         <script
@@ -16,12 +15,15 @@
     </head>
 
     <body>
+        <h1 class="title-text">Panel sterowania nakładką CG</h1>
+        <hr/>
+        <div class="flex-wrapper">
         <div id="top-level-container">
+            <h2>Główne opcje</h2>
             <div class="darkmode-toggle">
                 <input type="checkbox" id="darkmode" />
                 <label for="darkmode">Tryb ciemny</label>
             </div>
-            <h1>Panel sterowania nakładką CG</h1>
             <input type="checkbox" id="emblem-visible" />
             <label for="emblem-visible">Pokaż zespoły</label><br />
             <input type="checkbox" id="comment-mode" />
@@ -31,20 +33,20 @@
             <button id="config-dump">Zapisz obecną konfigurację</button>
         </div>
         <div id="infobar-container">
-            >
-            <hr />
+            
             <h2>Belka informacyjna</h2>
             <p>Po jednej wiadomości na linię</p>
             <textarea
                 id="infobar-content"
-                style="width: 500px; height: 120px; background: #eee"
+                style="width: 500px; height: 120px"
+                spellcheck="false"
             ></textarea>
             <br />
             <br />
             <button id="infobar-update">Aktualizuj treść</button>
         </div>
         <div id="textbar-container">
-            <hr />
+            
             <h2>Pasek z tekstem</h2>
             <select
                 id="textbar-content"
@@ -66,7 +68,7 @@
             <button id="textbar-update">Podmień tekst</button>
         </div>
         <div id="timer-control-container">
-            <hr />
+            
             <h2>Stoper</h2>
             <b id="timer-current" style="font-size: 1.3em">00:00</b>
             <button id="timer-start">Wznów</button>
@@ -78,22 +80,21 @@
             <input type="checkbox" id="timer-sound" checked />
             <label for="timer-sound">Dźwięk końca czasu</label>
         </div>
-        <div style="position: relative">
+        <div>
             <div
                 id="result-control-container"
-                style="position: absolute; top: 0; left: 0; visibility: hidden"
+                style="visibility: hidden"
             >
-                <hr />
                 <h2>Wyniki wyborów</h2>
                 <!-- Script will add input fields here-->
             </div>
             <div
                 id="tournament-control"
-                style="position: absolute; top: 0; left: 0; visibility: hidden"
+                style="visibility: hidden"
             >
                 <h2>Funkcje Turniejowe</h2>
                 <div id="tournament-teams">
-                    <hr />
+                    
                     <h3>Podmiana drużyn</h3>
                     <input
                         id="team1"
@@ -106,7 +107,7 @@
                     </button>
                 </div>
                 <div id="tournament-results">
-                    <hr />
+                    
                     <h3>Wyniki rund</h3>
                     <textarea
                         id="team1-score"
@@ -124,6 +125,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </body>
     <script>
         let ws;
