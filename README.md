@@ -27,6 +27,7 @@ and multiple static files were removed from the historical commits, in attempt t
 that's why historical versions of this repository may not work/build.
 
 **Original design of the overlay by Łukasz Świszcz**
+**New controller page design by [@Rafisto](https://github.com/Rafisto)**
 
 Basic overlay functionality contains:
 * Infobar with dynamic text (multiple lines supported)
