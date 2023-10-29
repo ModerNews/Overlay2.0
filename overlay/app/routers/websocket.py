@@ -117,7 +117,7 @@ async def websocket_endpoint(websocket: WebSocket):
                     websocket.app.timer.started_at = datetime.datetime.now()
                     data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
                 elif data["type"] == "stop":  # Stops countdown timer, stopping the timer does not reset the value
-                    websocket.app.update_timer()
+                    websocket.app.timer.update_timer()
                     websocket.app.timer.running = False
                     data = {"event": "timer_state", "state": websocket.app.timer.to_dict()}
                 elif data["type"] == "set":  # Updates timer with new values from controller
